@@ -1,0 +1,31 @@
+{
+  "name": "google-facebook-authentication-with-passportJs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsblend/google-facebook-authentication-with-passportJs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsblend/google-facebook-authentication-with-passportJs/issues"
+  },
+  "homepage": "https://github.com/jsblend/google-facebook-authentication-with-passportJs#readme",
+  "dependencies": {
+    "cookie-session": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-oauth2": "^1.5.0"
+  }
+}
