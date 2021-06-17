@@ -17,7 +17,6 @@ const isLoggedIn = (req, res, next) => {
         res.sendStatus(401);
     }
 }
-
 app.use(passport.initialize());
 
 app.use(passport.session())
@@ -31,7 +30,7 @@ app.get('/', (req, res) => {
 app.get('/failed', (req, res) => res.send('You Failed to log in!'))
 
 app.get('/good', isLoggedIn, (req, res) => {
-    console.log(req.user.photos[0].value)
+    console.log(req.user._json)
     res.render('pages/profile.ejs',{
         name:req.user.displayName,
         pic:req.user._json.picture,
@@ -49,7 +48,8 @@ app.get('/google/callback',
         res.redirect('/good');
     })
 
-app.get('/profile',(req,res) => {
+app.get('/profile',  (req,res) => {
+    console.log("----->",req.user)
     res.render('pages/profile', {
         profile: "facebook",
         name:req.user.displayName,
@@ -57,15 +57,41 @@ app.get('/profile',(req,res) => {
         email:req.user.emails[0].value // get the user out of session and pass to template
     });
 })
-    
 
 app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
+app.get('/auth/linkedin', 
+    passport.authenticate('linkedin', {
+        scope : ['r_emailaddress', 'r_liteprofile'] 
+    }
+));
+
+app.get('/auth/twitter', 
+    passport.authenticate('twitter', {
+        scope : ['r_emailaddress', 'r_liteprofile'] 
+    }
+));
+
 app.get('/facebook/callback',
-		passport.authenticate('facebook', {
-			successRedirect : '/profile',
-			failureRedirect : '/'
-		}));
+	passport.authenticate('facebook', {
+		successRedirect : '/profile',
+        failureRedirect : '/'
+    }
+));
+
+app.get('/twitter/callback',
+	passport.authenticate('twitter', {
+		successRedirect : '/profile',
+        failureRedirect : '/'
+    }
+));
+
+app.get('/linkedin/callback',
+    passport.authenticate('linkedin', {
+        successRedirect: '/good',
+        failureRedirect: '/'
+    }
+));
 
 app.get('/logout', function(req, res) {
     req.logout();

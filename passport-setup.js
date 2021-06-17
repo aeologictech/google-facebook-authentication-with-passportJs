@@ -1,7 +1,9 @@
 const passport  = require('passport');
 require('dotenv').config();
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const LinkedinStrategy = require('passport-linkedin-oauth2').Strategy;
 const facebookStrategy = require('passport-facebook').Strategy;
+const twitterStrategy = require('passport-twitter').Strategy;
 passport.serializeUser(function(user, done) {
     /*
     From the user take just the id (to minimize the cookie size) and just pass the id of the user
@@ -23,7 +25,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+    callbackURL: "http://localhost:3000/google/callback",
     passReqToCallback: true
 }, (request, accessToken, refreshToken, profile, done) => {
     console.log(profile)
@@ -43,4 +45,24 @@ function(token, refreshToken, profile, done) {
 
     console.log(profile)
     return done(null,profile)
+}));
+
+passport.use(new LinkedinStrategy({
+    clientID: process.env.LINKEDIN_CLIENT_ID,
+    clientSecret: process.env.LINKEDIN_SECRET_ID,
+    callbackURL: "http://localhost:3000/linkedin/callback",
+    passReqToCallback: true
+}, (request, accessToken, refreshToken, profile, done) => {
+    console.log(profile)
+    done(null, profile)
+}));
+
+passport.use(new twitterStrategy({
+    clientID: process.env.TWITTER_CLIENT_ID,
+    clientSecret: process.env.TWITTER_SECRET_ID,
+    callbackURL: "http://localhost:3000/twitter/callback",
+    passReqToCallback: true
+}, (request, accessToken, refreshToken, profile, done) => {
+    console.log(profile)
+    done(null, profile)
 }));
